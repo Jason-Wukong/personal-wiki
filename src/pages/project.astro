@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Jason-Wukong 的公开项目" />
+    <title>PROJECT · 我的图书馆</title>
+  </head>
+  <body>
+    <header>
+      <nav aria-label="主导航">
+        <a href={import.meta.env.BASE_URL}>HOME</a>
+        <a href={`${import.meta.env.BASE_URL.replace(/\/$/, "")}/project/`} aria-current="page">PROJECT</a>
+        <span>NOTE</span>
+        <span>ONE MORE THING...</span>
+      </nav>
+    </header>
+
+    <main>
+      <p class="eyebrow">SELECTED WORK / 01</p>
+      <h1>PROJECT</h1>
+      <p class="intro">从一个可以持续生长的个人网站开始。</p>
+
+      <article>
+        <div class="project-heading">
+          <div>
+            <p class="number">01 / WEB</p>
+            <h2>Personal Wiki</h2>
+          </div>
+          <span class="status">已上线 · 持续建设</span>
+        </div>
+        <p class="description">
+          一个用来展示作品与想法的个人空间。第一版完成了首页、可在自己的浏览器中更换的背景，以及公开发布；其他栏目会随着真实内容逐步开放。
+        </p>
+        <p class="technology">Astro · CSS · GitHub Pages</p>
+        <div class="project-links">
+          <a href={import.meta.env.BASE_URL}>浏览网站 ↗</a>
+          <a href="https://github.com/Jason-Wukong/personal-wiki">查看源码 ↗</a>
+        </div>
+      </article>
+    </main>
+
+    <footer>
+      <span>Jason-Wukong</span>
+      <a href="https://github.com/Jason-Wukong">GitHub ↗</a>
+    </footer>
+  </body>
+</html>
+
+<style>
+  body {
+    margin: 0;
+    min-height: 100vh;
+    background: #f7f7f5;
+    color: #202020;
+    font-family: Arial, "Microsoft YaHei", sans-serif;
+  }
+
+  nav, main, footer {
+    max-width: 1120px;
+    margin: 0 auto;
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+
+  nav {
+    display: flex;
+    gap: 32px;
+    padding-top: 24px;
+    padding-bottom: 24px;
+  }
+
+  nav a, footer a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  nav a[aria-current="page"] {
+    font-weight: 700;
+  }
+
+  nav a:not([aria-current]) {
+    color: #777;
+  }
+
+  nav span, .eyebrow, .number, .technology, footer {
+    color: #777;
+  }
+
+  main {
+    padding-top: 88px;
+    padding-bottom: 112px;
+  }
+
+  .eyebrow, .number, .technology {
+    font-size: 14px;
+    letter-spacing: 0.08em;
+  }
+
+  h1 {
+    margin: 12px 0 18px;
+    font-size: clamp(56px, 9vw, 96px);
+    line-height: 1;
+    letter-spacing: -0.05em;
+  }
+
+  .intro {
+    margin: 0;
+    font-size: 20px;
+  }
+
+  article {
+    margin-top: 80px;
+    padding: 40px;
+    border-radius: 24px;
+    background: #eceef1;
+  }
+
+  .project-heading {
+    display: flex;
+    align-items: start;
+    justify-content: space-between;
+    gap: 24px;
+  }
+
+  .number { margin: 0 0 12px; }
+
+  h2 {
+    margin: 0;
+    font-size: clamp(30px, 5vw, 48px);
+    letter-spacing: -0.04em;
+  }
+
+  .status { color: #555; }
+
+  .description {
+    max-width: 680px;
+    margin: 32px 0;
+    line-height: 1.8;
+  }
+
+  .technology { margin: 0; }
+
+  .project-links {
+    display: flex;
+    gap: 28px;
+    margin-top: 48px;
+  }
+
+  .project-links a {
+    color: inherit;
+    font-weight: 700;
+    text-underline-offset: 4px;
+  }
+
+  footer {
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 48px;
+  }
+
+  @media (max-width: 640px) {
+    nav {
+      gap: 16px;
+      flex-wrap: wrap;
+      font-size: 14px;
+    }
+
+    nav, main, footer {
+      padding-left: 24px;
+      padding-right: 24px;
+    }
+
+    main { padding-top: 64px; padding-bottom: 72px; }
+    article { margin-top: 56px; padding: 28px; }
+    .project-heading { display: block; }
+    .status { display: inline-block; margin-top: 16px; }
+    .project-links { flex-wrap: wrap; }
+  }
+</style>

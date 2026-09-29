@@ -8,7 +8,7 @@
      <header>
   <nav aria-label="主导航">
     <a href={import.meta.env.BASE_URL} aria-current="page">HOME</a>
-    <span>PROJECT</span>
+    <a href={`${import.meta.env.BASE_URL.replace(/\/$/, "")}/project/`}>PROJECT</a>
     <span>NOTE</span>
     <span>ONE MORE THING...</span>
   </nav>
@@ -98,6 +98,11 @@
       color: inherit;
       font-weight: 700;
       text-decoration: none;
+  }
+
+  nav a:not([aria-current]) {
+      color: #777;
+      font-weight: 400;
   }
 
   nav span {
