@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <title>我的图书馆</title>
+  </head>
+  <body>
+     <header>
+  <nav aria-label="主导航">
+    <a href={import.meta.env.BASE_URL} aria-current="page">HOME</a>
+    <span>PROJECT</span>
+    <span>NOTE</span>
+    <span>ONE MORE THING...</span>
+  </nav>
+</header>
+
+<main>
+  <h1>MY LIBRARY</h1>
+  <p>Wow,that was so cool</p>
+  <h2>ONLY APPLE CAN DO</h2>
+  <section aria-label="馆藏">
+
+  <article>
+    <h2>知识的索引</h2>
+    <p>施工中</p>
+  </article>
+
+  <article>
+  <h2>问题的来路</h2>
+  <p>施工中</p>
+</article>
+
+<article>
+  <h2>作品的形状</h2>
+  <p>施工中</p>
+</article>
+
+</section>
+</main>
+<footer>
+  <button type="button" id="change-background">更换背景</button>
+  <button type="button" id="reset-background">恢复默认</button>
+  <input id="background-file" type="file" accept="image/*" hidden />
+  <span>Jason-Wukong</span>
+  <a href="https://github.com/Jason-Wukong">GitHub ↗</a>
+</footer>
+  </body>
+</html>
+<style>
+  body {
+      margin: 0;
+      background: #f7f7f5;
+      color: #202020;
+      font-family: Arial, "Microsoft YaHei", sans-serif;
+      --page-background-image: none;
+      background-image: var(--page-background-image);
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+  }
+
+  main {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 88px 40px;
+   }
+
+  nav {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 24px 40px;
+      display: flex;
+      gap: 32px;
+  }
+
+ section {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      margin-top: 80px;
+  }
+
+  article {
+      min-height: 220px;
+      padding: 28px;
+      border-radius: 24px;
+      background: #eceef1;
+  }
+
+  h1 {
+      margin: 0;
+      font-size: 72px;
+      letter-spacing: -0.05em;
+      line-height: 1.1;
+  }
+
+  nav a {
+      color: inherit;
+      font-weight: 700;
+      text-decoration: none;
+  }
+
+  nav span {
+      color: #777;
+  }
+
+  footer {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 0 40px 48px;
+      display: flex;
+      justify-content: space-between;
+      color: #777;
+  }
+
+  footer a {
+      color: inherit;
+      text-decoration: none;
+}
+  footer button {
+    border: 0;
+    padding: 0;
+    background: transparent;
+    color: inherit;
+    font: inherit;
+    cursor: pointer;
+  }
+</style>
+<script>
+  const button = document.querySelector<HTMLButtonElement>("#change-background");
+  const resetButton = document.querySelector<HTMLButtonElement>("#reset-background");
+  const fileInput = document.querySelector<HTMLInputElement>("#background-file");
+  if (!fileInput) throw new Error("找不到 #background-file 文件输入框");
+  let currentUrl: string | undefined;
+
+  function showBackground(image: Blob) {
+    if (currentUrl) URL.revokeObjectURL(currentUrl);
+    currentUrl = URL.createObjectURL(image);
+
+    document.body.style.setProperty(
+      "--page-background-image",
+      `url("${currentUrl}")`
+    );
+  }
+
+  button?.addEventListener("click", () => fileInput?.click());
+
+  const request = indexedDB.open("personal-wiki", 1);
+
+  request.onupgradeneeded = () => {
+    request.result.createObjectStore("preferences");
+  };
+
+  request.onsuccess = () => {
+    const db = request.result;
+    const saved = db
+      .transaction("preferences", "readonly")
+      .objectStore("preferences")
+      .get("background");
+
+    saved.onsuccess = () => {
+      if (saved.result instanceof Blob) showBackground(saved.result);
+    };
+
+    fileInput?.addEventListener("change", () => {
+      const image = fileInput.files?.[0];
+      if (!image) return;
+
+      showBackground(image);
+      db.transaction("preferences", "readwrite")
+        .objectStore("preferences")
+        .put(image, "background");
+    });
+
+    resetButton?.addEventListener("click", () => {
+    if (currentUrl) URL.revokeObjectURL(currentUrl);
+    currentUrl = undefined;
+    document.body.style.removeProperty("--page-background-image");
+    fileInput.value = "";
+
+    db.transaction("preferences", "readwrite")
+      .objectStore("preferences")
+      .delete("background");
+  });
+};
+</script>
